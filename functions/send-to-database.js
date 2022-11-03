@@ -99,7 +99,8 @@ exports.handler = async (event, context) => {
         id: 1
       })
       console.log("Data added to supabase");
-      console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
+      console.log(tableData);
+      // console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
 
     return {
       statusCode: 200,
