@@ -45,9 +45,9 @@ exports.handler = async (event, context) => {
     const screenshot = await page.screenshot();
 
     // let serverName = await elementFound('#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(2) > div > span:nth-child(2)');
-    let serverLocked = "#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(2) > div > span:nth-child(4)";
-    let serverOnlineCount = "#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(6) > span";
-    let serverQueue = "#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(7)";
+    let serverLocked = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(2) > div > span:nth-child(4)");
+    let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(6) > span");
+    let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(7)");
     // let asOf = "";
 
       // let numberInQueue = await elementFound('body > section:nth-child(1) > div > h2 > div:nth-child(1) > span');
