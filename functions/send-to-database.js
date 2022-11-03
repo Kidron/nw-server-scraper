@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
     // let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(6) > span");
     // let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(7)");
 
-    const tableData = await page.evaluate(() => {
+    tableData = await page.evaluate(() => {
       const tds = Array.from(document.querySelectorAll('table tr td'))
       return tds.map(td => td.innerText)
     });
