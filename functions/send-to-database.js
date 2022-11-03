@@ -42,20 +42,17 @@ exports.handler = async (event, context) => {
     await page.goto(whatSite);
     
 
-    const screenshot = await page.screenshot();
+    // const screenshot = await page.screenshot();
 
-    // let serverName = await elementFound('#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(6) > td:nth-child(2) > div > span:nth-child(2)');
-    let serverLocked = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(2) > div > span:nth-child(4)");
-    let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(6) > span");
-    let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(7)");
-    // let asOf = "";
+    // let serverLocked = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(2) > div > span:nth-child(4)");
+    // let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(6) > span");
+    // let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(7)");
 
-      // let numberInQueue = await elementFound('body > section:nth-child(1) > div > h2 > div:nth-child(1) > span');
-  
-      // let blizzETA = await elementFound('body > section:nth-child(1) > div > h2 > div:nth-child(2) > span')
+    const tableData = await page.evaluate(() => {
+      const tds = Array.from(document.querySelectorAll('table tr td'))
+      return tds.map(td => td.innerText)
+    });
 
-  
-      // let asOf = await elementFound('body > section:nth-child(1) > div > p');
       
 
     await browser.close();
@@ -81,13 +78,22 @@ exports.handler = async (event, context) => {
     //   }
     // }
 
+      // const { data, error } = await supabase
+      // .from("new_world__queue")
+      // .update({
+      //   updated_at: new Date().toISOString().toLocaleString('en-US'),
+      //   queue_count: `${serverQueue ? serverQueue : 0}`,
+      //   online_count: `${serverOnlineCount ? serverOnlineCount : 0}`,
+      //   server_locked: `${serverLocked ? "Server Locked" : "Server Unlocked"}`
+      // })
+      // .match({
+      //   id: 1
+      // })
+
       const { data, error } = await supabase
       .from("new_world__queue")
       .update({
-        updated_at: new Date().toISOString().toLocaleString('en-US'),
-        queue_count: `${serverQueue ? serverQueue : 0}`,
-        online_count: `${serverOnlineCount ? serverOnlineCount : 0}`,
-        server_locked: `${serverLocked ? "Server Locked" : "Server Unlocked"}`
+        server_devourer: tableData
       })
       .match({
         id: 1
