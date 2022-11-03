@@ -12,6 +12,7 @@ exports.handler = async (event, context) => {
 
 
   const browser = await puppeteer.launch({
+    timeout: 100000,
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
     executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath,
