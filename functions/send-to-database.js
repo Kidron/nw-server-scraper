@@ -112,7 +112,7 @@ exports.handler = async (event, context) => {
       }
 
       const { data, error } = await supabase
-      .from("new_world_queue")
+      .from("nnw_queue_devourer")
       .update({
         updated_at: new Date().toISOString().toLocaleString('en-US'),
         server_locked: serverLocked
