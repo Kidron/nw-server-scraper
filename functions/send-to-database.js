@@ -4,7 +4,7 @@ const chromium = require("@sparticuz/chromium");
 const dotenv = require("dotenv").config();
 
 
-const whatSite = 'https://nwdb.info/server-status';
+const whatSite = 'https://www.newworld.com/en-us/support/server-status';
 
 
 
@@ -44,14 +44,14 @@ exports.handler = async (event, context) => {
 
     // const screenshot = await page.screenshot();
 
-    // let serverLocked = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(2) > div > span:nth-child(4)");
+    let serverLocked = await elementFound("body > main > section > div > div.ags-ServerStatus-content-responses > div.ags-ServerStatus-content-responses-response.ags-ServerStatus-content-responses-response--centered.ags-js-serverResponse.is-active > div:nth-child(11) > div");
     // let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(6) > span");
     // let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(7)");
 
-    tableData = await page.evaluate(() => {
-      const tds = Array.from(document.querySelectorAll('table tr td'))
-      return tds.map(td => td.innerText)
-    });
+    // tableData = await page.evaluate(() => {
+    //   const tds = Array.from(document.querySelectorAll('table tr td'))
+    //   return tds.map(td => td.innerText)
+    // });
 
       
 
@@ -91,15 +91,15 @@ exports.handler = async (event, context) => {
       // })
 
       const { data, error } = await supabase
-      .from("new_world__queue")
+      .from("new_world_queue")
       .update({
-        server_devourer: tableData
+        server_devourer: serverLocked
       })
       .match({
         id: 1
       })
       console.log("Data added to supabase");
-      console.log(tableData);
+      console.log(serverLocked);
       // console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
 
     return {
