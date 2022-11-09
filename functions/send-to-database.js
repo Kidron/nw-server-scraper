@@ -1,5 +1,6 @@
 const { supabase } = require("../utils/database");
 const puppeteer = require("puppeteer-core");
+// const puppeteer = require("puppeteer");
 const chromium = require("@sparticuz/chromium");
 const dotenv = require("dotenv").config();
 
@@ -19,18 +20,28 @@ exports.handler = async (event, context) => {
     ignoreHTTPSErrors: true,
 });
 
+//Puppeteer locally
+//   const browser = await puppeteer.launch({
+//     executablePath: process.env.CHROME_EXECUTABLE_PATH || await executablePath,
+//     headless: false,
+//     ignoreHTTPSErrors: true,
+    
+// });
+
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1024 });
+
+
 
 
   const elementFound = async (ele) => {
     try {
 
       console.log("Element", ele);
-      return await page.$eval(ele, (el) => el.innerText);
+      return await page.waitForSelector(ele, { timeout: 5000 })
       
     } catch (error) {
-      console.log(`Element ${ele} not found`);
+      console.log(`Element not found`);
       return ele = null
         // asOf = "N/A"
     }
@@ -40,11 +51,13 @@ exports.handler = async (event, context) => {
   try {
     
     await page.goto(whatSite);
+    // const el = await page.waitForSelector('body > main > section > div > div.ags-ServerStatus-content-tabs > a:nth-child(2) > div')
+    await page.click('body > main > section > div > div.ags-ServerStatus-content-tabs > a:nth-child(2) > div')
     
 
     // const screenshot = await page.screenshot();
 
-    let serverLocked = await elementFound("body > main > section > div > div.ags-ServerStatus-content-responses > div.ags-ServerStatus-content-responses-response.ags-ServerStatus-content-responses-response--centered.ags-js-serverResponse.is-active > div:nth-child(11) > div");
+    let serverLocked = await elementFound("body > main > section > div > div.ags-ServerStatus-content-responses > div.ags-ServerStatus-content-responses-response.ags-ServerStatus-content-responses-response--centered.ags-js-serverResponse.is-active > div:nth-child(11) > div.ags-ServerStatus-content-responses-response-server-status-wrapper > div.ags-ServerStatus-content-responses-response-server-status.ags-ServerStatus-content-responses-response-server-status--noTransfer");
     // let serverOnlineCount = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(6) > span");
     // let serverQueue = await elementFound("#svelte > div.container.mt-4.container-mb.my-auto.svelte-1d6did6 > div.container > div > div.item-table.table\! > div > section > article > table > tbody > tr:nth-child(22) > td:nth-child(7)");
 
@@ -89,11 +102,20 @@ exports.handler = async (event, context) => {
       // .match({
       //   id: 1
       // })
+      console.log(serverLocked);
+      if(serverLocked === null) {
+        console.log("server is unlocked");
+        serverLocked = false;
+      } else {
+        console.log("server is locked");
+        serverLocked = true;
+      }
 
       const { data, error } = await supabase
       .from("new_world_queue")
       .update({
-        server_devourer: serverLocked
+        updated_at: new Date().toISOString().toLocaleString('en-US'),
+        server_locked: serverLocked
       })
       .match({
         id: 1

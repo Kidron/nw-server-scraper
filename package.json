@@ -4,5 +4,8 @@
     "@supabase/supabase-js": "^1.35.7",
     "dotenv": "^16.0.3",
     "puppeteer-core": "^18.2.1"
+  },
+  "devDependencies": {
+    "puppeteer": "^19.2.2"
   }
 }
