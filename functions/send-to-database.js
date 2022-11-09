@@ -1,7 +1,7 @@
 const { supabase } = require("../utils/database");
-const puppeteer = require("puppeteer-core");
-// const puppeteer = require("puppeteer");
-const chromium = require("@sparticuz/chromium");
+// const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
+// const chromium = require("@sparticuz/chromium");
 const dotenv = require("dotenv").config();
 
 
@@ -12,21 +12,21 @@ const whatSite = 'https://www.newworld.com/en-us/support/server-status';
 exports.handler = async (event, context) => {
 
 
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath,
-    headless: chromium.true,
-    ignoreHTTPSErrors: true,
-});
+//   const browser = await puppeteer.launch({
+//     args: chromium.args,
+//     defaultViewport: chromium.defaultViewport,
+//     executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath,
+//     headless: chromium.true,
+//     ignoreHTTPSErrors: true,
+// });
 
 //Puppeteer locally
-//   const browser = await puppeteer.launch({
-//     executablePath: process.env.CHROME_EXECUTABLE_PATH || await executablePath,
-//     headless: false,
-//     ignoreHTTPSErrors: true,
+  const browser = await puppeteer.launch({
+    executablePath: process.env.CHROME_EXECUTABLE_PATH || await executablePath,
+    headless: false,
+    ignoreHTTPSErrors: true,
     
-// });
+});
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1024 });
@@ -112,7 +112,7 @@ exports.handler = async (event, context) => {
       }
 
       const { data, error } = await supabase
-      .from("nnw_queue_devourer")
+      .from("nw_queue_devourer")
       .update({
         updated_at: new Date().toISOString().toLocaleString('en-US'),
         server_is_locked: "yes"
