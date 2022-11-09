@@ -115,7 +115,7 @@ exports.handler = async (event, context) => {
       .from("nnw_queue_devourer")
       .update({
         updated_at: new Date().toISOString().toLocaleString('en-US'),
-        server_locked: serverLocked
+        server_locked: true
       })
       .match({
         id: 1
