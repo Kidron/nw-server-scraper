@@ -111,26 +111,53 @@ exports.handler = async (event, context) => {
         serverLocked = true;
       }
 
-      const { data, error } = await supabase
-      .from("nw_queue_devourer")
-      .update({
-        updated_at: new Date().toISOString().toLocaleString('en-US'),
-        server_is_locked: "yes"
-      })
-      .match({
-        id: 1
-      })
-      console.log("Data added to supabase");
-      console.log(serverLocked);
-      // console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
+      try {
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        { 
-          data
+        const { data, error } = await supabase
+        .from("nw_queue_devourer")
+        .update({
+          updated_at: new Date().toISOString().toLocaleString('en-US'),
+          server_is_locked: "yes"
         })
-    }
+        .match({
+          id: 1
+        })
+        console.log("Data added to supabase");
+        console.log(serverLocked);
+        // console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
+  
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          { 
+            data
+          })
+      }
+
+      } catch (error) {
+        console.log("data not added to supabase");
+      }
+
+    //   const { data, error } = await supabase
+    //   .from("nw_queue_devourer")
+    //   .update({
+    //     updated_at: new Date().toISOString().toLocaleString('en-US'),
+    //     server_is_locked: "yes"
+    //   })
+    //   .match({
+    //     id: 1
+    //   })
+    //   console.log("Data added to supabase");
+    //   console.log(serverLocked);
+    //   // console.log(`Current Queue: ${serverQueue}, Online Count: ${serverOnlineCount}`);
+
+    // return {
+    //   statusCode: 200,
+    //   body: JSON.stringify(
+    //     { 
+    //       data
+    //     })
+    // }
 
 
     } catch (error) {
