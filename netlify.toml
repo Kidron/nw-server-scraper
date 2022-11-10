@@ -1,2 +1,11 @@
 [functions]
   directory="functions"
+
+[functions."check-server-status"]
+  schedule = "* * * * *"
+
+[functions."server-devourer"]
+  schedule = "*/2 * * * *"
+
+[functions."send-webhook"]
+  schedule = "*/3 * * * *"
