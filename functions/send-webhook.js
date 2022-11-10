@@ -85,7 +85,7 @@ if(queueData.devourer_locked) {
         "color": `${embedColor}`,
         "title": `Devourer is currently: ${queueData.devourer_locked ? ":lock: Locked" : ":unlock: Unlocked"}`,
         "footer": {
-          "text": `${date} \nTo add this to your server add Kidron#8857 on discord`
+          "text": `As of ${date} EST \nTo add this to your server add Kidron#8857 on discord`
         }
       }]
       }), 
