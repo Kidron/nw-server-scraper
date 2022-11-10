@@ -80,7 +80,7 @@ if(queueData.devourer_locked) {
       method: 'POST',
       body: JSON.stringify({
         "content": `${!queueData.devourer_locked ? discordRoleId : ""}`,
-      username: `Devourer Status: ${queueData.devourer_locked ? ":lock: Locked" : ":unlock: Unlocked"}`,
+      username: `Devourer Status: ${queueData.devourer_locked ? "Locked" : "Unlocked"}`,
       embeds: [{
         "color": `${embedColor}`,
         "title": `Devourer is currently: ${queueData.devourer_locked ? ":lock: Locked" : ":unlock: Unlocked"}`,
