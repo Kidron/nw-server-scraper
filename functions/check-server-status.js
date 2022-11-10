@@ -27,13 +27,38 @@ exports.handler = async (event, context) => {
     }
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      data: response.data
+  try {
+
+    const { data, error } = await supabase
+    .from("new_world_queue")
+    .update({
+      updated_at: new Date().toISOString().toLocaleString('en-US'),
+      server_json: response.data
     })
+    .match({
+      id: 1
+    })
+    console.log("Data added to supabase");
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: data
+      })
+    }
+    
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: err.statusCode || 500,
+      body: JSON.stringify({
+        error: err.message
+      })
+    }
   }
 
+
+}
 
 
 
@@ -91,4 +116,4 @@ exports.handler = async (event, context) => {
   //       body: JSON.stringify({error: 'Failed'}),
   //   }
   // }   
-}
+// }
