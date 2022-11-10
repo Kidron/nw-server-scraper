@@ -17,10 +17,13 @@ exports.handler = async (event, context) => {
 
   const queueData = queue_data[0];
 
-
-//  if(queueData.devourer_locked) {
-
-//  }
+//Handle notify logic
+ if(!queueData.devourer_locked && !queueData.notify) {
+  await supabase
+  .from('new_world_queue')
+  .update({ notify: true })
+  .eq('id', 1)
+ }
 
 // Handle queue color - default green, greater than 1 orange, more than 999 red
 let embedColor;
@@ -46,7 +49,7 @@ if(queueData.devourer_locked) {
     const config = {
       method: 'POST',
       body: JSON.stringify({
-        "content": `${!queueData.devourer_locked ? discordRoleId : ""}`,
+        "content": `${queueData.notify ? discordRoleId : ""}`,
       username: `Devourer Status: ${queueData.devourer_locked ? "Locked" : "Unlocked"}`,
       embeds: [{
         "color": `${embedColor}`,
