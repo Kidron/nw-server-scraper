@@ -18,10 +18,10 @@ exports.handler = async (event, context) => {
   const queueData = queue_data[0];
 
 //Handle notify logic
- if(!queueData.devourer_locked && queueData.notify) {
+ if(queueData.devourer_locked && !queueData.notify) {
   await supabase
   .from('new_world_queue')
-  .update({ notify: false })
+  .update({ notify: true })
   .eq('id', 1)
  }
 
