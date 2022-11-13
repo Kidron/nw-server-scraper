@@ -15,11 +15,12 @@ exports.handler = async (event, context) => {
     let serverDevourer;
     let serverLocked = false;
     for(let server of serverData) {
-      if(server[4] === "Devourer")
+      if(server[4] === "Devourer") {
       serverDevourer = server;
         if(server[7] === 1304) {
           serverLocked = true;
         }
+      } 
     }
     console.log(serverLocked);
 
