@@ -17,6 +17,9 @@ exports.handler = async (event, context) => {
 
   const queueData = queue_data[0];
 
+  // const lastStatus =  queue_data[0].devourer_locked;
+
+
 //Handle notify logic
  if(queueData.devourer_locked && !queueData.send_ping) {
   await supabase
@@ -24,13 +27,14 @@ exports.handler = async (event, context) => {
   .update({ send_ping: true })
   .eq('id', 1)
  }
- if(!queueData.devourer_locked && !queueData.send_ping) {
-  await supabase
-  .from('new_world_queue')
-  .update({ send_ping: true })
-  .eq('id', 1)
- }
+//  if(!queueData.devourer_locked) {
+//   await supabase
+//   .from('new_world_queue')
+//   .update({ send_ping: true })
+//   .eq('id', 1)
+//  }
 
+ // Ping once
  if(queueData.send_ping) {
   await supabase
   .from('new_world_queue')
