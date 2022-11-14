@@ -18,19 +18,19 @@ exports.handler = async (event, context) => {
   const queueData = queue_data[0];
 
 //Handle notify logic
- if(queueData.devourer_locked && !queueData.notify) {
+ if(queueData.devourer_locked && !queueData.send_ping) {
   await supabase
   .from('new_world_queue')
-  .update({ notify: true })
+  .update({ send_ping: true })
+  .eq('id', 1)
+ }
+ if(!queueData.devourer_locked && !queueData.send_ping) {
+  await supabase
+  .from('new_world_queue')
+  .update({ send_ping: true })
   .eq('id', 1)
  }
 
-//  if(queueData.devourer_locked && queueData.notify) {
-//   await supabase
-//   .from('new_world_queue')
-//   .update({ notify: false })
-//   .eq('id', 1)
-//  }
 
 // Handle queue color - default green, greater than 1 orange, more than 999 red
 let embedColor;
@@ -56,7 +56,7 @@ if(queueData.devourer_locked) {
     const config = {
       method: 'POST',
       body: JSON.stringify({
-        "content": `${queueData.notify ? discordRoleId : ""}`,
+        "content": `${!queueData.dont_ping ? discordRoleId : ""}`,
       username: `Devourer Status: ${queueData.devourer_locked ? "Locked" : "Unlocked"}`,
       embeds: [{
         "color": `${embedColor}`,
@@ -74,6 +74,14 @@ if(queueData.devourer_locked) {
   const responses = await Promise.all(requests);
   const promises = responses.map(response => response.text());
   const fetchData = await Promise.all(promises);
+
+
+  if(queueData.send_ping) {
+    await supabase
+    .from('new_world_queue')
+    .update({ dont_ping: true })
+    .eq('id', 1)
+   }
     
   //Need to add error handling
 
