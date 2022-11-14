@@ -67,7 +67,7 @@ if(queueData.devourer_locked) {
     const config = {
       method: 'POST',
       body: JSON.stringify({
-        "content": `${!queueData.dont_ping ? discordRoleId : ""}`,
+        "content": `${queueData.send_ping ? discordRoleId : ""}`,
       username: `Devourer Status: ${queueData.devourer_locked ? "Locked" : "Unlocked"}`,
       embeds: [{
         "color": `${embedColor}`,
