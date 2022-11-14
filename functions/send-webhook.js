@@ -31,6 +31,13 @@ exports.handler = async (event, context) => {
   .eq('id', 1)
  }
 
+ if(queueData.send_ping) {
+  await supabase
+  .from('new_world_queue')
+  .update({ dont_ping: true })
+  .eq('id', 1)
+ }
+
 
 // Handle queue color - default green, greater than 1 orange, more than 999 red
 let embedColor;
@@ -74,14 +81,6 @@ if(queueData.devourer_locked) {
   const responses = await Promise.all(requests);
   const promises = responses.map(response => response.text());
   const fetchData = await Promise.all(promises);
-
-
-  if(queueData.send_ping) {
-    await supabase
-    .from('new_world_queue')
-    .update({ dont_ping: true })
-    .eq('id', 1)
-   }
     
   //Need to add error handling
 
