@@ -1,11 +1,11 @@
 [functions]
   directory="functions"
 
-[functions."check-server-status"]
-  schedule = "* * * * *"
+# [functions."check-server-status"]
+#   schedule = "* * * * *"
 
-[functions."server-devourer"]
-  schedule = "*/2 * * * *"
+# [functions."server-devourer"]
+#   schedule = "*/2 * * * *"
 
-[functions."send-webhook"]
-  schedule = "*/3 * * * *"
+# [functions."send-webhook"]
+#   schedule = "*/3 * * * *"
